@@ -79,4 +79,8 @@
     [[segue destinationViewController] setEditDetailItem:self.detailItem];
     // }
 }
+
+- (IBAction)unwindToDetailViewController:(UIStoryboardSegue *)unwindSegue
+{
+}
 @end

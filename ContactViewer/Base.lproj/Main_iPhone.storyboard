@@ -310,7 +310,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit Contact" id="WwE-ov-HqI"/>
+                    <navigationItem key="navigationItem" title="Edit Contact" id="WwE-ov-HqI">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="t0D-bM-Uns">
+                            <connections>
+                                <segue destination="4t8-NM-pC2" kind="unwind" unwindAction="unwindToDetailViewController:" id="QsY-Vv-9f8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="editDetailEmailTextField" destination="hJv-Ay-AWX" id="mCR-eE-ljy"/>
                         <outlet property="editDetailNameTextField" destination="XAT-5I-1sp" id="Uhg-r1-GfU"/>
@@ -319,6 +325,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xix-qi-Cck" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="4t8-NM-pC2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1408" y="64"/>
         </scene>

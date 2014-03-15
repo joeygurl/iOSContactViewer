@@ -24,5 +24,6 @@
 -(IBAction)call:(id)sender;
 -(IBAction)launchSMS:(id)sender;
 -(IBAction)launchEmail:(id)sender;
+-(IBAction)unwindToDetailViewController:(UIStoryboardSegue *)unwindSegue;
 
 @end

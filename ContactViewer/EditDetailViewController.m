@@ -45,6 +45,7 @@
 {
     [super viewDidLoad];
 	[self configureView];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,4 +58,8 @@
 - (IBAction)textFieldDidEndEditing:(id)sender {
     [sender resignFirstResponder];
 }
+
+
+
+
 @end
