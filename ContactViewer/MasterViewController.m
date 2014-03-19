@@ -19,6 +19,8 @@
 
 @implementation MasterViewController
 
+NSArray *filteredContacts;
+
 - (void)awakeFromNib
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -67,20 +69,44 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+//    if (tableView == self.searchDisplayController.searchResultsTableView) {
+//        return [filteredContacts count];
+//        
+//    } else {
+//        return [contacts count];
+//    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _contactStore.count;
+    //return _contactStore.count;
+        if (tableView == self.searchDisplayController.searchResultsTableView) {
+            return [filteredContacts count];
+    
+        } else {
+            return [[_contactStore getContacts] count];
+        }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    }
 
-    //NSDate *object = _objects[indexPath.row];
-    Contact *contact = [_contactStore getContactAtIndex:indexPath.row];
+    Contact *contact = nil;
+
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        contact = [filteredContacts objectAtIndex:indexPath.row];
+    } else {
+        contact = [_contactStore getContactAtIndex:indexPath.row];
+    }
+    
     cell.textLabel.text = contact.name;
+
+    
     return cell;
 }
 
@@ -118,24 +144,48 @@
 }
 */
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        //NSDate *object = _objects[indexPath.row];
-        Contact *contact = [_contactStore getContactAtIndex:indexPath.row];
-        self.detailViewController.detailItem = contact;
-    }
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        //NSDate *object = _objects[indexPath.row];
+//        Contact *contact = [_contactStore getContactAtIndex:indexPath.row];
+//        self.detailViewController.detailItem = contact;
+//    }
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        //NSDate *object = _objects[indexPath.row];
-        Contact *contact = [_contactStore getContactAtIndex:indexPath.row];
+        NSIndexPath *indexPath = nil;
+        Contact *contact = nil;
+        if (self.searchDisplayController.active){
+            indexPath  = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            contact = [filteredContacts objectAtIndex:indexPath.row];
+        }
+        else{
+            indexPath = [self.tableView indexPathForSelectedRow];
+            contact = [_contactStore getContactAtIndex:indexPath.row];
+        }
+        
         [[segue destinationViewController] setDetailItem:contact];
 
     }
+}
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
+    filteredContacts = [[_contactStore getContacts] filteredArrayUsingPredicate:resultPredicate];
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "ContactStore.h"
 
 @interface ContactStore() {
-    NSArray *_contacts;
+    NSMutableArray *_contacts;
 }
 @end
 
@@ -23,12 +23,17 @@
     return [_contacts objectAtIndex:index];
 }
 
+-(NSMutableArray *)getContacts{
+    return _contacts;
+}
+
 -(id)initWithDummies {
     self = [super init];
-    _contacts =  @[
-                   [[Contact alloc] initWithName:@"Ronda Rousey" andTitle:@"Ms" andPhone:@"123" andEmail:@"ronda@email.com" andTwitter:@"@rowdy"],
-                   [[Contact alloc] initWithName:@"Lyoto Machida" andTitle:@"Mr" andPhone:@"543" andEmail:@"lyoto@email.com" andTwitter:@"@thedragon"]
-    ];
+    
+    _contacts = [[NSMutableArray alloc] init];
+    [_contacts addObject:[[Contact alloc] initWithName:@"Ronda Rousey" andTitle:@"Ms" andPhone:@"123" andEmail:@"ronda@email.com"andTwitter:@"@rowdy"]];
+    
+     [_contacts addObject:[[Contact alloc] initWithName:@"Lyoto Machida" andTitle:@"Mr" andPhone:@"543" andEmail:@"lyoto@email.com" andTwitter:@"@thedragon"]];
     return self;
     
 }

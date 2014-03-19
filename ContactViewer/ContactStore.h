@@ -14,6 +14,7 @@
 -(int)count;
 
 -(Contact *) getContactAtIndex:(int)index;
+-(NSMutableArray *) getContacts;
 -(id)initWithDummies;
 
 @end
