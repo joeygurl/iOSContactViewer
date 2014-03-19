@@ -44,7 +44,7 @@
 
 - (void)viewDidLoad
 {
-//    [super viewDidLoad];
+   [super viewDidLoad];
    // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -57,27 +57,23 @@
 
 - (void)call:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel:123"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.detailItem.phone]]];
 }
 
 - (void)launchSMS:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"sms:123"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"sms:%@", self.detailItem.phone]]];
 }
 
 - (void)launchEmail:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"mailto:123@gmail.com"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", self.detailItem.email]]];
 }
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // if ([[segue identifier] isEqualToString:@"showDetail"]) {
-    //   NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    //   Contact *object = [self detailItem];
     [[segue destinationViewController] setEditDetailItem:self.detailItem];
-    // }
 }
 
 - (IBAction)unwindToDetailViewController:(UIStoryboardSegue *)unwindSegue

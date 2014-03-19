@@ -10,15 +10,16 @@
 
 @implementation Contact
 
-@synthesize name, title, phone, email, twitter;
+@synthesize name, title, phone, email, twitter, contactId;
 
--(id)initWithName:(NSString *)newName andTitle:(NSString *)newTitle andPhone:(NSString *)newPhone andEmail:(NSString *)newEmail andTwitter:(NSString *)newTwitter {
+-(id)initWithName:(NSString *)newName andTitle:(NSString *)newTitle andPhone:(NSString *)newPhone andEmail:(NSString *)newEmail andTwitter:(NSString *)newTwitter andContactId:(NSString *)newContactId {
     self = [super init];
     self.name = newName;
     self.title = newTitle;
     self.phone = newPhone;
     self.email = newEmail;
     self.twitter = newTwitter;
+    self.contactId = newContactId;
     return self;
 };
 

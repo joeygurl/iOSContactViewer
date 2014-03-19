@@ -10,12 +10,14 @@
 
 @interface Contact : NSObject
 
+
+@property NSString *contactId;
 @property NSString *name;
 @property NSString *title;
 @property NSString *phone;
 @property NSString *email;
 @property NSString *twitter;
 
--(id)initWithName:(NSString *)newName andTitle:(NSString *)newTitle andPhone:(NSString *)newPhone andEmail:(NSString *)newEmail andTwitter:(NSString *)newTwitter;
+-(id)initWithName:(NSString *)newName andTitle:(NSString *)newTitle andPhone:(NSString *)newPhone andEmail:(NSString *)newEmail andTwitter:(NSString *)newTwitter andContactId:(NSString *)newContactId;
 
 @end
