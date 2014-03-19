@@ -18,4 +18,5 @@
 -(void) remove:(NSString *) contactId;
 -(Contact *) getContactAtIndex:(int)index;
 -(NSMutableArray *) getContacts;
+
 @end

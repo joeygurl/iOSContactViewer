@@ -10,6 +10,7 @@
 
 @interface ContactStore() {
     NSMutableArray *_contacts;
+    
 }
 @end
 
@@ -24,15 +25,11 @@ NSString *apiKey = @"appydays";
     return [_contacts objectAtIndex:index];
 }
 
--(NSMutableArray *)getContacts{
-    
-    //init rest api url string
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://contacts.tinyapollo.com/contacts?key=%@",apiKey]];
-    
+-(NSDictionary *) getResponse:(NSURL *)fromRequest andHTTPMethod:(NSString *)httpMethod{
     //init request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"GET"];
+    [request setURL:fromRequest];
+    [request setHTTPMethod:httpMethod];
     
     //init response
     NSHTTPURLResponse *response = nil;
@@ -40,6 +37,16 @@ NSString *apiKey = @"appydays";
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+    return responseDict;
+}
+
+-(NSMutableArray *)getContacts{
+    
+    //init rest api url string
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://contacts.tinyapollo.com/contacts?key=%@",apiKey]];
+    
+    NSDictionary *responseDict = [self getResponse:url andHTTPMethod:@"GET"];
+    
     NSArray *contacts = [responseDict objectForKey:@("contacts")];
     
     
@@ -68,16 +75,28 @@ NSString *apiKey = @"appydays";
 }
 
 -(void) add:(Contact *)contact{
+    //init rest api url string
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://contacts.tinyapollo.com/contacts?key=%@&id=%@&title=%@&name=%@&phone=%@&email=%@&twitter=%@",apiKey, contact.contactId, contact.title, contact.name, contact.phone, contact.email, contact.twitter]];
     
+    NSDictionary *responseDict = [self getResponse:url andHTTPMethod:@"POST"];
 }
 
 -(void) update:(Contact *)contact{
+    //init rest api url string
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://contacts.tinyapollo.com/contacts?key=%@&id=%@&title=%@&name=%@&phone=%@&email=%@&twitter=%@",apiKey, contact.contactId, contact.title, contact.name, contact.phone, contact.email, contact.twitter]];
     
+    NSDictionary *responseDict = [self getResponse:url andHTTPMethod:@"PUT"];
 }
 
 -(void) remove:(NSString *)contactId{
+    //init rest api url string
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://contacts.tinyapollo.com/contacts/%@?key=%@",contactId, apiKey]];
+    
+    NSDictionary *responseDict = [self getResponse:url andHTTPMethod:@"DELETE"];
     
 }
+
+
 
 
 @end
